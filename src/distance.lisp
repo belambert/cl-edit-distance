@@ -1,9 +1,6 @@
-;;; Copyright Benjamin E. Lambert, 2005-2011
-;;; All rights reserved
-;;; Please contact author regarding licensing and use:
+;;; Author: Ben Lambert
 ;;; ben@benjaminlambert.com
 
-;;(declaim (optimize (debug 3)))
 (in-package :levenshtein-distance)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -55,7 +52,6 @@
    analysis."
   (let ((path (levenshtein-distance seq1 seq2 :return-path t :test test)))
     (print-differences path :file-stream file-stream :prefix1 prefix1 :prefix2 prefix2 :suffix1 suffix1 :suffix2 suffix2)))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;; Levenshtein distance ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -129,8 +125,6 @@
   (unless return-path
     (return-from levenshtein-distance (levenshtein-distance-fast s1 s2 :test test)))
   (setf test (coerce test 'function))
-  ;; (unless (arrayp s1) (setf s1 (make-array (length s1) :element-type 'string :initial-contents s1)))
-  ;; (unless (arrayp s2) (setf s2 (make-array (length s2) :element-type 'string :initial-contents s2)))
   (setf s1 (make-array (length s1) :element-type 'string :initial-contents s1))
   (setf s2 (make-array (length s2) :element-type 'string :initial-contents s2))
   (let* ((width (1+ (length s1)))
