@@ -57,10 +57,6 @@
 ;;;;;;; Levenshtein distance ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Levenshtein Distance.  This implementation was converted from the Scheme
-;; implementation given at http://en.wikipedia.org/wiki/Levenshtein_distance
-;; The code below is adapted from some code that was in the public domain.
-
 (defun levenshtein-distance-fast (seq1 seq2 &key (test 'equal))
   "Just like the previous version, but also return the number of *matches*.
    This is pretty fast now... It looks like most of the time taken is in applying the test (e.g. string-equal)
