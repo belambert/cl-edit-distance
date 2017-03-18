@@ -1,8 +1,6 @@
 language: common-lisp
 sudo: required
 
-#language: lisp
-
 env:
   matrix:
     - LISP=sbcl
@@ -13,19 +11,9 @@ env:
     - LISP=ccl32
     - LISP=clisp
     - LISP=clisp32
-    - LISP=cmucl
-    - LISP=ecl
-
-# matrix:
-#   allow_failures:
-#     - env: LISP=ccl32
-    
 
 install:
   - curl -L https://github.com/luismbo/cl-travis/raw/master/install.sh | sh
-  # - git clone --depth=1 git://github.com/trivial-features/trivial-features.git ~/lisp/trivial-features
-  # - git clone https://gitlab.common-lisp.net/alexandria/alexandria.git ~/lisp/alexandria
-  # - git clone --depth=1 git://github.com/cl-babel/babel.git ~/lisp/babel
 
 script:
   - cl -e "(ql:quickload '(\"edit-distance-test\" \"edit-distance\"))
