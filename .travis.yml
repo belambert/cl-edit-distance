@@ -1,4 +1,7 @@
-language: lisp
+language: common-lisp
+sudo: required
+
+#language: lisp
 
 env:
   matrix:
