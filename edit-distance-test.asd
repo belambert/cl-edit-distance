@@ -13,4 +13,4 @@
     :serial t
     :components
     ((:file "test"))))
-  :depends-on ("edit-distance"))
+  :depends-on ("edit-distance" "lisp-unit"))
