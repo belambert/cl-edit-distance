@@ -12,4 +12,5 @@
   ((:module src
     :serial t
     :components
-    ((:file "test")))))
+    ((:file "test"))))
+  :depends-on ("edit-distance"))
