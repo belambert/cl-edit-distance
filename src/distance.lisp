@@ -1,7 +1,7 @@
 ;;; Author: Ben Lambert
 ;;; ben@benjaminlambert.com
 
-(in-package :levenshtein-distance)
+(in-package :edit-distance)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;; Interface(?) ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -61,7 +61,9 @@
   "Just like the previous version, but also return the number of *matches*.
    This is pretty fast now... It looks like most of the time taken is in applying the test (e.g. string-equal)
    some non-negligible part of it is taken by the MAKE-ARRAY calls and GC'ing those..."
-  (declare ((simple-array string *) seq1 seq2))
+  (declare ((simple-array *) seq1 seq2))
+  ;;(declare (simple-array seq1 seq2))
+  ;;(declare (optimize (debug 3)))
   (setf test (coerce test 'function))
   (let* ((n (length seq1))
 	 (m (length seq2))
@@ -113,13 +115,13 @@
       )))
 
 ;; This one is much slower.  But it's also the only way to get the alignment.
-(defun levenshtein-distance (s1 s2 &key (test 'equal) (return-path nil));; (kb-only nil) (in-vocab))
+(defun levenshtein-distance (s1 s2 &key (test 'equal) (return-path nil))
   "Compute the Levenshtein distance between two sequences.  If return path is t, returns the return path.
    O/w just returns the distance."
-  ;;(declare (optimize (speed 3)))
+  (declare (optimize (speed 1)))
   ;; If the return path is not required, call the faster version instead.
   (unless return-path
-    (return-from levenshtein-distance (levenshtein-distance-fast s1 s2 :test test)))
+    (return-from levenshtein-distance (values '()  (levenshtein-distance-fast s1 s2 :test test))))
   (setf test (coerce test 'function))
   (setf s1 (make-array (length s1) :element-type 'string :initial-contents s1))
   (setf s2 (make-array (length s2) :element-type 'string :initial-contents s2))
@@ -157,10 +159,10 @@
 		 (setf (aref bp (1+ y) (1+ x)) (list :deletion (elt s1 x) nil)))
 		(t (error "")))
 	;; save the min distance
-	(setf (aref d (1+ y) (1+ x)) min))))
+	  (setf (aref d (1+ y) (1+ x)) min))))
     (values
-     (get-path-from-bp-table bp width height);; path
-     (aref d (1- height) (1- width))))) ;;distance
+     (get-path-from-bp-table bp width height) ;; path
+     (aref d (1- height) (1- width)))))       ;; distance
 
 (defun get-path-from-bp-table (bp width height)
   "Given a back-pointer table, return a representation of the shortest path."

@@ -3,7 +3,7 @@
 ;;; Author: Ben Lambert
 ;;; ben@benjaminlambert.com
 
-(asdf:defsystem "levenshtein-distance"
+(asdf:defsystem "edit-distance-test"
   :description "Computing edit distance"
   :version "0.1"
   :author "Ben Lambert"
@@ -12,6 +12,4 @@
   ((:module src
     :serial t
     :components
-    ((:file "package")
-     (:file "distance")))))
-
+    ((:file "test")))))

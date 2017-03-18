@@ -1,5 +1,5 @@
 
-(defpackage :levenshtein-distance
+(defpackage :edit-distance
   (:use :common-lisp)
   (:export :compute-edit-distance
 	   :compute-alignment

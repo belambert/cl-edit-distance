@@ -1,0 +1,16 @@
+language: lisp
+
+env:
+  matrix:
+    - LISP=sbcl
+    - LISP=sbcl32
+
+install:
+  - curl -L https://github.com/luismbo/cl-travis/raw/master/install.sh | sh
+  # - git clone --depth=1 git://github.com/trivial-features/trivial-features.git ~/lisp/trivial-features
+  # - git clone https://gitlab.common-lisp.net/alexandria/alexandria.git ~/lisp/alexandria
+  # - git clone --depth=1 git://github.com/cl-babel/babel.git ~/lisp/babel
+
+script:
+  - cl -e "(ql:quickload '(:edit-distance-test :edit-distance))
+           (lisp-unit:run-tests :all :edit-distance-tests)"
