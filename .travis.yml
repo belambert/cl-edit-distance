@@ -15,6 +15,6 @@ install:
   # - git clone --depth=1 git://github.com/cl-babel/babel.git ~/lisp/babel
 
 script:
-  - cl -e "(ql:quickload '(:edit-distance-test :edit-distance))
+  - cl -e "(ql:quickload '(\"edit-distance-test\" \"edit-distance\"))
              (unless (lisp-unit:run-tests :all :edit-distance-tests)
                (uiop:quit 1))"
