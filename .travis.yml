@@ -5,7 +5,7 @@ env:
   matrix:
     - LISP=sbcl   COVERALLS=true
     - LISP=abcl
-    - LISP=allegro
+    # - LISP=allegro
     - LISP=ccl
     - LISP=clisp
 
@@ -14,11 +14,10 @@ install:
   - git clone https://github.com/fukamachi/cl-coveralls ~/lisp/cl-coveralls
 
 script:
-  - cl -l edit-distance-test -l edit-distance -l cl-coveralls
-       -e '(coveralls:with-coveralls (:exclude (list "t"))
-             (unless (lisp-unit:run-tests :all :edit-distance-tests)
-               (uiop:quit 1)))'
-
-  
+  - ./test.sh
+  # - cl -l edit-distance-test -l edit-distance -l cl-coveralls
+  #      -e '(coveralls:with-coveralls (:exclude (list "t"))
+  #            (unless (lisp-unit:run-tests :all :edit-distance-tests)
+  #              (uiop:quit 1)))'  
        # -e "(unless (lisp-unit:run-tests :all :edit-distance-tests)
        #      (uiop:quit 1))"
