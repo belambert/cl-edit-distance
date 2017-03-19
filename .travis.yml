@@ -4,13 +4,10 @@ sudo: required
 env:
   matrix:
     - LISP=sbcl
-    - LISP=sbcl32
     - LISP=abcl
     - LISP=allegro
     - LISP=ccl
-    - LISP=ccl32
     - LISP=clisp
-    - LISP=clisp32
 
 install:
   - curl -L https://github.com/luismbo/cl-travis/raw/master/install.sh | sh
@@ -19,7 +16,3 @@ script:
   - cl -l edit-distance-test -l edit-distance
        -e "(unless (lisp-unit:run-tests :all :edit-distance-tests)
             (uiop:quit 1))"
-  
-  # - cl -e "(ql:quickload '(\"edit-distance-test\" \"edit-distance\"))
-  #            (unless (lisp-unit:run-tests :all :edit-distance-tests)
-  #              (uiop:quit 1))"
