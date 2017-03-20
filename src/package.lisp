@@ -10,4 +10,5 @@
 	   :distance-deletions
 	   :distance-substitutions
 	   :distance-matches
-	   :distance-errors))
+	   :distance-errors
+	   :levenshtein-distance))
