@@ -2,8 +2,10 @@ language: common-lisp
 sudo: required
 
 env:
+  global:
+    - TEST_FORM="(unless (lisp-unit:run-tests :all :edit-distance-tests) (uiop:quit 1))"
   matrix:
-    - LISP=sbcl
+    - LISP=sbcl COVERALLS=true
     - LISP=abcl
     - LISP=allegro
     - LISP=ccl
@@ -11,8 +13,8 @@ env:
 
 install:
   - curl -L https://github.com/luismbo/cl-travis/raw/master/install.sh | sh
-
+  
 script:
-  - cl -l edit-distance-test -l edit-distance
-       -e "(unless (lisp-unit:run-tests :all :edit-distance-tests)
-             (uiop:quit 1))"
+   - if [[ "$COVERALLS" == "true" ]]; then git clone https://github.com/fukamachi/cl-coveralls ~/lisp/cl-coveralls; fi
+   - if [[ "$COVERALLS" == "true" ]]; then cl -l edit-distance-test -l edit-distance -l cl-coveralls -e "(coveralls:with-coveralls (:exclude (list \"t\")) $TEST_FORM )"; fi
+   - if [[ "$COVERALLS" -ne "true" ]]; then cl -l edit-distance-test -l edit-distance -e "$TEST_FORM"; fi

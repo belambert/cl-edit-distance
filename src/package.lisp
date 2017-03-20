@@ -11,4 +11,5 @@
 	   :distance-substitutions
 	   :distance-matches
 	   :distance-errors
-	   :levenshtein-distance))
+	   :levenshtein-distance
+	   :print-differences))

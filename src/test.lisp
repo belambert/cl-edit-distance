@@ -20,3 +20,10 @@
       (levenshtein-distance '("1" "2" "3") '("1" "2" "4") :return-path t)
     (assert-equal path '((:MATCH "1" "1") (:MATCH "2" "2") (:SUBSTITUTION "3" "4")))
     (assert-equal distance 1)))
+
+
+(define-test test-printing
+  (multiple-value-bind (path distance)
+      (levenshtein-distance '("1" "2" "3") '("1" "2" "4") :return-path t)
+    (assert-equal distance 1)
+    (print-differences path)))
