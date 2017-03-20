@@ -1,12 +1,11 @@
 ;; To run these tests: (lisp-unit:run-tests :all :edit-distance-tests)
 
-(defpackage #:edit-distance-tests
+(defpackage :edit-distance-tests
   (:use :common-lisp
 	:cl-user
         :edit-distance
         :lisp-unit)
-  (:export
-   #:run))
+  (:export :run))
 
 (in-package :edit-distance-tests)
 

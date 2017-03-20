@@ -1,4 +1,3 @@
-
 [![Build Status](https://travis-ci.org/belambert/cl-editdistance.svg?branch=master)](https://travis-ci.org/belambert/cl-editdistance)
 
 lisp-editdistance
