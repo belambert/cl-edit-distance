@@ -24,6 +24,6 @@
 
 (define-test test-printing
   (multiple-value-bind (path distance)
-      (levenshtein-distance '("1" "2" "3") '("1" "2" "4") :return-path t)
-    (assert-equal distance 1)
+      (levenshtein-distance '(0 1 2 3) '(1 2 4 5) :return-path t)
+    (assert-equal distance 3)
     (print-differences path)))
