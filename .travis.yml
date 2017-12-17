@@ -7,7 +7,6 @@ env:
   matrix:
     - LISP=sbcl COVERALLS=true
     - LISP=abcl
-    - LISP=allegro
     - LISP=ccl
     - LISP=clisp
 
