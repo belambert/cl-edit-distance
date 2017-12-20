@@ -5,7 +5,7 @@
 
 (asdf:defsystem "edit-distance-test"
   :description "Computing edit distance"
-  :version "0.1"
+  :version "0.1.0"
   :author "Ben Lambert"
   :serial t
   :components
