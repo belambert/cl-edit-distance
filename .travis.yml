@@ -5,6 +5,8 @@ env:
   global:
     - TEST_FORM="(unless (lisp-unit:run-tests :all :edit-distance-tests) (uiop:quit 1))"
   matrix:
+    # The full set used by quicklisp is:
+    # ABCL, Allegro CL, Clasp, Clozure CL, CLISP, CMUCL, ECL, LispWorks, MKCL, SBCL, and Scieneer CL,
     #- LISP=sbcl COVERALLS=true
     - LISP=sbcl
     - LISP=abcl

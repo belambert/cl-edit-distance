@@ -114,6 +114,9 @@
       (values (aref error-col-previous m) (aref match-col-previous m))
       )))
 
+(defun edit-distance (s1 s2 &key (test 'equal) (return-path nil))
+  (levenshtein-distance s1 s2 :test test :return-path return-path))
+
 ;; This one is much slower.  But it's also the only way to get the alignment.
 (defun levenshtein-distance (s1 s2 &key (test 'equal) (return-path nil))
   "Compute the Levenshtein distance between two sequences.  If return path is t, returns the return path.

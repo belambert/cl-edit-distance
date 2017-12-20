@@ -12,4 +12,5 @@
 	   :distance-matches
 	   :distance-errors
 	   :levenshtein-distance
+	   :edit-distance
 	   :print-differences))
