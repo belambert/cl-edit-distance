@@ -111,8 +111,7 @@
 		  (t (error "!!")))))
 	(rotatef error-col error-col-previous)
 	(rotatef match-col match-col-previous))
-      (values (aref error-col-previous m) (aref match-col-previous m))
-      )))
+      (values (aref error-col-previous m) (aref match-col-previous m)))))
 
 (defun edit-distance (s1 s2 &key (test 'equal) (return-path nil))
   (levenshtein-distance s1 s2 :test test :return-path return-path))
@@ -122,6 +121,11 @@
   "Compute the Levenshtein distance between two sequences.  If return path is t, returns the return path.
    O/w just returns the distance."
   (declare (optimize (speed 1)))
+  ;; Everything should be simple arrays
+  (unless (typep s1 'simple-array)
+    (setf s1 (make-array (length s1) :element-type 'string :initial-contents s1)))
+  (unless (typep s2 'simple-array)
+    (setf s2 (make-array (length s2) :element-type 'string :initial-contents s2)))
   ;; If the return path is not required, call the faster version instead.
   (unless return-path
     (return-from levenshtein-distance (values '()  (levenshtein-distance-fast s1 s2 :test test))))
