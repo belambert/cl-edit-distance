@@ -4,7 +4,7 @@
 (in-package :edit-distance)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;; Interface(?) ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;; Interface ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defstruct (edit-distance-result (:conc-name distance-))
@@ -187,8 +187,7 @@
 		  (decf y))
 		 ((eq bp-type :deletion)
 		  (decf x))
-		 (t (error "~A is not a valid match/subst/insertion/deletion." this-bp))
-		 )))
+		 (t (error "~A is not a valid match/subst/insertion/deletion." this-bp)))))
     path))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -205,28 +204,26 @@
     (format file-stream "~vA: " prefix-length prefix1)
     (dolist (entry path)
       (let* ((type (first entry))
-	     (value1 (second entry))
-	     (value2 (third entry))
+	     (value1 (write-to-string (second entry)))
+	     (value2 (write-to-string (third entry)))
 	     (length (max (length value1) (length value2))))
 	(cond ((eq type :match)
 	       (format file-stream "~A " (string-downcase value1)))
 	      ((eq type :substitution)
 	       (format file-stream "~vA " length (string-upcase value1)))
 	      ((eq type :insertion)
-	       (format file-stream "~vA " length (make-string length :initial-element #\*)
-		       ))
+	       (format file-stream "~vA " length (make-string length :initial-element #\*)))
 	      ((eq type :deletion)
 	       (assert value1)
-	       (format file-stream "~vA " length (string-upcase value1)))
-	      )))
+	       (format file-stream "~vA " length (string-upcase value1))))))
     (if suffix1 
 	(format file-stream "[~A]~%" suffix1)
 	(format file-stream "~%"))
     (format file-stream "~vA: " prefix-length prefix2)
     (dolist (entry path)
       (let* ((type (first entry))
-	     (value1 (second entry))
-	     (value2 (third entry))
+	     (value1 (write-to-string (second entry)))
+	     (value2 (write-to-string (third entry)))
 	     (length (max (length value1) (length value2))))
 	(cond ((eq type :match)
 	       (format file-stream "~A " (string-downcase value2)))
@@ -236,10 +233,7 @@
 	       (assert value2)
 	       (format file-stream "~vA " length (string-upcase value2)))
 	      ((eq type :deletion)
-	       (format file-stream "~vA " length (make-string length :initial-element #\*)))
-	      )))
+	       (format file-stream "~vA " length (make-string length :initial-element #\*))))))
     (if suffix2
 	(format file-stream "[~A]~%" suffix2)
 	(format file-stream "~%"))))
-
-

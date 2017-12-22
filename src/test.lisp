@@ -27,3 +27,20 @@
       (levenshtein-distance '(0 1 2 3) '(1 2 4 5) :return-path t)
     (assert-equal distance 3)
     (print-differences path)))
+
+(define-test test-arrays
+    (let ((result (compute-edit-distance #(1 2 3) #(1 2 4))))
+      (assert-equal (distance-errors result) 1)
+      (assert-equal (distance-matches result) 2)))
+
+(define-test test-strings
+    (let ((result (compute-edit-distance "123" "124")))
+      (assert-equal (distance-errors result) 1)
+      (assert-equal (distance-matches result) 2)))
+
+(define-test test-string-printing
+  (multiple-value-bind (path distance)
+      (levenshtein-distance "0123" "1245" :return-path t)
+    (assert-equal distance 3)
+    (print-differences path)))
+
