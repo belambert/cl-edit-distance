@@ -1,4 +1,4 @@
-;;-*- Mode: Lisp -*- 
+;; -*- Mode: Lisp -*- 
 
 (asdf:defsystem "edit-distance"
   :name "edit-distance"
@@ -12,4 +12,6 @@
     :serial t
     :components
     ((:file "package")
-     (:file "distance")))))
+     (:file "distance")
+     (:file "interface")
+     (:file "print")))))
