@@ -6,31 +6,6 @@
 
 (in-package :edit-distance)
 
-(defstruct (edit-distance-result (:conc-name distance-))
-  "Represents the result of performing an edit distance computation.  The actual
-   edit distance is stored in 'errors'.  This is comprised of the sum of insertions/deletions/
-   substitutions.  Matches can be used to compute recognition rates (as opposed to error rates)."
-  insertions
-  deletions
-  substitutions
-  matches
-  errors)
-
-(defun compute-edit-distance (s1 s2 &key (test 'equal))
-  "Get the edit distance between two sequences, represented in an edit-distance-result object.
-   Insertion/deletion/substitution counts are not currently being computed."
-  (unless (arrayp s1) (setf s1 (make-array (length s1) :element-type 'string :initial-contents s1)))
-  (unless (arrayp s2) (setf s2 (make-array (length s2) :element-type 'string :initial-contents s2)))
-  (multiple-value-bind (errors matches)
-      (levenshtein-distance-fast s1 s2 :test test)
-    (unless errors (setf errors 0))
-    (unless matches (setf matches 0))
-    (make-edit-distance-result :insertions 0
-			       :deletions 0
-			       :substitutions 0
-			       :matches matches
-			       :errors errors)))
-
 (defun compute-alignment (s1 s2 &key (test 'equal))
   (levenshtein-distance s1 s2 :test test :return-path t))
 
@@ -51,3 +26,50 @@
    analysis."
   (let ((path (levenshtein-distance seq1 seq2 :return-path t :test test)))
     (print-differences path :file-stream file-stream :prefix1 prefix1 :prefix2 prefix2 :suffix1 suffix1 :suffix2 suffix2)))
+
+(defun edit-distance (s1 s2 &key (test 'equal) (return-path nil))
+  (levenshtein-distance s1 s2 :test test :return-path return-path))
+
+;;;;;;;;;;;; Use these... ;;;;;;;;;;;
+
+(defun distance (s1 s2 &key (test 'equal))
+  (multiple-value-bind (path distance)
+      (levenshtein-distance s1 s2 :test test :return-path nil)
+    (declare (ignore path))
+    distance))
+
+(defun diff (s1 s2 &key (test 'equal))
+  (levenshtein-distance s1 s2 :test test :return-path t))
+
+(defun print-diff (seq1 seq2 &key
+			 (file-stream t)
+			 (test 'equal)
+			 (prefix1 "seq1")
+			 (prefix2 "seq2")
+			 (suffix1 "")
+			 (suffix2 ""))
+  "Print a human readable 'diff' of the two sequences to the given stream (standard out by default).
+   Optionally prefixes and suffixes of each line can be printed for easier identification and
+   analysis."
+  (let ((path (levenshtein-distance seq1 seq2 :return-path t :test test)))
+    (print-differences path
+		       :file-stream file-stream
+		       :prefix1 prefix1
+		       :prefix2 prefix2
+		       :suffix1 suffix1
+		       :suffix2 suffix2)
+    (values)))
+
+(defun insertions-and-deletions (seq1 seq2 &key (test 'equal))
+  (compute-insertions-and-deletions seq1 seq2 :test test))
+
+(defun format-diff (path &key (file-stream t) prefix1 prefix2 suffix1 suffix2)
+  "Print a human readable 'diff' of the two sequences to the given stream (standard out by default).
+   Optionally prefixes and suffixes of each line can be printed for easier identification and
+   analysis."
+  (print-differences path
+		     :file-stream file-stream
+		     :prefix1 prefix1
+		     :prefix2 prefix2
+		     :suffix1 suffix1
+		     :suffix2 suffix2))

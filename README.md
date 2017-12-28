@@ -1,26 +1,60 @@
-[![Build Status](https://travis-ci.org/belambert/cl-edit-distance.svg?branch=master)](https://travis-ci.org/belambert/cl-edit-distance)
-
 edit-distance
 =================
 
-Computes the Levenshtein distance between two sequences.
+[![Build Status](https://travis-ci.org/belambert/cl-edit-distance.svg?branch=master)
+](https://travis-ci.org/belambert/cl-edit-distance)
 
-https://en.wikipedia.org/wiki/Levenshtein_distance
+Using
+-----
+Computes the [edit distance](https://en.wikipedia.org/wiki/Levenshtein_distance)
+(aka Levenshtein distance) between two sequences. This is a common distance measure.
 
-Compute edit distance using this function:
-```lisp
-    (defun levenshtein-distance (s1 s2 &key (test 'equal) (return-path nil)))
-```
+For example, to compute the distance between two sequences:
 
-or
+    (edit-distance:distance '(1 2 3 4 5) '(2 3 4 5 6))
 
-```lisp
-    (defun edit-distance (s1 s2 &key (test 'equal) (return-path nil)))
-```
+To compute the sequence of edit operations needed to convert sequence
+1 into sequence two, use the `diff` function
+
+    (edit-distance:diff '(1 2 3 4 5) '(2 3 4 5 6))
+
+That will return two values a structure, as follows, and the distance.
+
+    ((:DELETION 1 NIL) (:MATCH 2 2) (:MATCH 3 3) (:MATCH 4 4) (:MATCH 5 5) (:INSERTION NIL 6))
+    2
+
+That structure can be printed more readibly with the `FORMAT-DIFF`
+function
+
+    (edit-distance:format-diff *path*)
+
+Or, you can compute the diff and print it readably together by calling `PRINT-DIFF`:
+
+    (edit-distance:print-diff '(1 2 3 4 5) '(2 3 4 5 6))
+
+which will print a result like this:
+
+    seq1: 1   2 3 4 5 *** []
+    seq2: *** 2 3 4 5 6   []
+
+Several options are available to the `FORMAT-DIFF` and `PRINT-DIFF` to
+print a prefix and suffix for each line.  Note that displaying
+substitutions relys on captialization and so substitutions are not
+visible for non-alphabetic sequence elements.
+
+Additionally, other equality functions can be used, so this evaluates
+to a distance of zero:
+
+     (edit-distance:distance '("ONE" "TWO" "THREE") '("one" "two"
+     "three") :test 'string-equal)
+
+Any type of sequence may be used, but for speed the input sequences
+are copied into new arrays. If speed is a major concern make sure to
+provide simple vectors as your input sequences.
 
 Testing
-=======
-To run tests with sbcl, run:
+-------
+To test with sbcl, run:
 
     sbcl --eval "(asdf:load-system 'edit-distance-test)" --eval "(unless (lisp-unit:run-tests :all :edit-distance-tests) (uiop:quit 1))"
 
