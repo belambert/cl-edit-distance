@@ -3,7 +3,7 @@
 (asdf:defsystem "edit-distance-test"
   :name "edit-distance-test"
   :description "Computing edit distance"
-  :version "0.1.1"
+  :version "1.0.0"
   :author "Ben Lambert <belambert@mac.com>"
   :license "CC-BY-4.0"
   :serial t
