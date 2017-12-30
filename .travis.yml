@@ -19,14 +19,10 @@ env:
     - LISP=clisp32
     # - LISP=ecl -- This hangs for some reason
 
-matrix:
-  allow_failures:
-    - env: "LISP=sbcl COVERALLS=true"
-
 install:
   - curl -L https://github.com/luismbo/cl-travis/raw/master/install.sh | sh
 
 script:
    - if [[ "$COVERALLS" == "true" ]]; then git clone https://github.com/fukamachi/cl-coveralls ~/lisp/cl-coveralls; fi
-   - if [[ "$COVERALLS" == "true" ]]; then cl -l edit-distance-test -l edit-distance -l cl-coveralls -e "(coveralls:with-coveralls (:exclude (list \"t\")) $TEST_FORM )"; fi
+   - if [[ "$COVERALLS" == "true" ]]; then cl -l edit-distance-test -e "(coveralls:with-coveralls (:exclude (list \"t\")) $TEST_FORM )"; fi
    - if [[ "$COVERALLS" -ne "true" ]]; then cl -l edit-distance-test -l edit-distance -e "$TEST_FORM"; fi

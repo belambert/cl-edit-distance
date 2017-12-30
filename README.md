@@ -1,8 +1,9 @@
 edit-distance
 =================
-
 [![Build Status](https://travis-ci.org/belambert/cl-edit-distance.svg?branch=master)
 ](https://travis-ci.org/belambert/cl-edit-distance)
+[![Coverage Status](https://coveralls.io/repos/github/belambert/cl-edit-distance/badge.svg?branch=coverage)
+](https://coveralls.io/github/belambert/cl-edit-distance?branch=coverage)
 
 Using
 -----
