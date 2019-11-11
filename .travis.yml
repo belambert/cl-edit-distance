@@ -12,12 +12,7 @@ env:
     - LISP=abcl
     - LISP=ccl
     - LISP=clisp
-    - LISP=allegro
     - LISP=cmucl
-    - LISP=sbcl32
-    - LISP=ccl32
-    - LISP=clisp32
-    # - LISP=ecl -- This hangs for some reason
 
 install:
   - curl -L https://github.com/luismbo/cl-travis/raw/master/install.sh | sh
