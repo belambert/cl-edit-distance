@@ -59,5 +59,17 @@ To test with sbcl, run:
 
     sbcl --eval "(asdf:load-system 'edit-distance-test)" --eval "(unless (lisp-unit:run-tests :all :edit-distance-tests) (uiop:quit 1))"
 
+TODO
+----
+- Remove the 100,000 element limit in the fast distance path.
+- Stop `print-diff` from changing the case of elements, and print strings and characters without quotes or `#\`.
+- Default the `format-diff` prefixes to `seq1` and `seq2` like `print-diff`.
+- Make `insertions-and-deletions` handle `NIL` elements.
+- Pad matched elements in printed diffs so columns stay aligned with custom `:test` functions.
+- Add tests that check printed output, not just that printing runs.
+- Remove unused functions: `compute-alignment`, `edit-distance`, and `sequence-diff`.
+- Test on more Lisp implementations in CI (abcl, ccl, clisp, cmucl).
+- Consider a software license such as MIT in place of CC-BY-4.0.
+
 ---
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">cl-edit-distance</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/belambert/cl-edit-distance" property="cc:attributionName" rel="cc:attributionURL">Ben Lambert</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
