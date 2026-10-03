@@ -4,7 +4,7 @@
   :name "edit-distance-test"
   :description "Computing edit distance between sequences."
   :version "1.0.0"
-  :author "Ben Lambert <belambert@mac.com>"
+  :author "Ben Lambert <blambert@gmail.com>"
   :license "CC-BY-4.0"
   :serial t
   :components
