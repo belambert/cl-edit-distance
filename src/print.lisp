@@ -3,45 +3,28 @@
 (in-package :edit-distance)
 
 (defun print-differences (path &key (file-stream t) prefix1 prefix2 suffix1 suffix2)
-  "Given a 'path' as produced by the above function LEVENSTEIN-DISTANCE function above,
-   print the differences in the format of the 'align' program.
-   The prefix and suffix args allow the caller to supply a string to print before, and
-   after each."
-  (fresh-line file-stream)
-  (let ((prefix-length (max (length prefix1) (length prefix2))))
-    (format file-stream "~vA: " prefix-length prefix1)
-    (dolist (entry path)
-      (let* ((type (first entry))
-	     (value1 (princ-to-string (second entry)))
-	     (value2 (princ-to-string (third entry)))
-	     (length (max (length value1) (length value2))))
-	(cond ((eq type :match)
-	       (format file-stream "~A " value1))
-	      ((eq type :substitution)
-	       (format file-stream "~vA " (+ length 2) (format nil "[~A]" value1)))
-	      ((eq type :insertion)
-	       (format file-stream "~vA " length (make-string length :initial-element #\*)))
-	      ((eq type :deletion)
-	       (assert value1)
-	       (format file-stream "~vA " length value1)))))
-    (if suffix1 
-	(format file-stream "[~A]~%" suffix1)
-	(format file-stream "~%"))
-    (format file-stream "~vA: " prefix-length prefix2)
-    (dolist (entry path)
-      (let* ((type (first entry))
-	     (value1 (princ-to-string (second entry)))
-	     (value2 (princ-to-string (third entry)))
-	     (length (max (length value1) (length value2))))
-	(cond ((eq type :match)
-	       (format file-stream "~A " value2))
-	      ((eq type :substitution)
-	       (format file-stream "~vA " (+ length 2) (format nil "[~A]" value2)))
-	      ((eq type :insertion)
-	       (assert value2)
-	       (format file-stream "~vA " length value2))
-	      ((eq type :deletion)
-	       (format file-stream "~vA " length (make-string length :initial-element #\*))))))
-    (if suffix2
-	(format file-stream "[~A]~%" suffix2)
-	(format file-stream "~%"))))
+  "Print the two sides of PATH as aligned lines; substitutions are bracketed and gaps are asterisks."
+  (let* ((cols (mapcar #'column path))
+         (widths (mapcar (lambda (col) (reduce #'max col :key #'length)) cols))
+         (plen (max (length prefix1) (length prefix2))))
+    (fresh-line file-stream)
+    (print-side file-stream plen prefix1 suffix1 (mapcar #'first cols) widths)
+    (print-side file-stream plen prefix2 suffix2 (mapcar #'second cols) widths)))
+
+(defun print-side (stream plen prefix suffix cells widths)
+  (format stream "~vA: ~{~A ~}~@[[~A]~]~%" plen prefix
+          (mapcar (lambda (cell width) (format nil "~vA" width cell)) cells widths)
+          suffix))
+
+(defun column (entry)
+  "Return the text shown for ENTRY on the first and second line."
+  (destructuring-bind (type a b) entry
+    (ecase type
+      (:match (list (princ-to-string a) (princ-to-string b)))
+      (:substitution (list (format nil "[~A]" a) (format nil "[~A]" b)))
+      (:insertion (let ((text (princ-to-string b))) (list (gap text) text)))
+      (:deletion (let ((text (princ-to-string a))) (list text (gap text)))))))
+
+(defun gap (text)
+  "Return asterisks as wide as TEXT, and at least one."
+  (make-string (max 1 (length text)) :initial-element #\*))

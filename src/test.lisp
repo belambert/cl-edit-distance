@@ -65,5 +65,9 @@
                 (printed "Ab" "Ab")))
 
 (define-test test-print-gaps
-  (assert-equal (format nil "seq1: 1   2 3 4 5 *** []~%seq2: *** 2 3 4 5 6   []~%")
+  (assert-equal (format nil "seq1: 1 2 3 4 5 * []~%seq2: * 2 3 4 5 6 []~%")
                 (printed '(1 2 3 4 5) '(2 3 4 5 6))))
+
+(define-test test-print-aligns-custom-test
+  (assert-equal (format nil "seq1: 5  []~%seq2: 15 []~%")
+                (printed '(5) '(15) :test (lambda (x y) (= (mod x 10) (mod y 10))))))
