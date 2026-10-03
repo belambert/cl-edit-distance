@@ -12,4 +12,5 @@
     :serial t
     :components
     ((:file "test"))))
-  :depends-on ("edit-distance" "lisp-unit"))
+  :depends-on ("edit-distance" "lisp-unit")
+  :perform (test-op (o c) (uiop:symbol-call :edit-distance-tests :run)))
