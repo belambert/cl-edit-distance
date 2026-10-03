@@ -1,8 +1,4 @@
-;; cl-edit-distance is licensed under a
-;; Creative Commons Attribution 4.0 International License.
-
-;; You should have received a copy of the license along with this
-;; work. If not, see <http://creativecommons.org/licenses/by/4.0/>.
+;; Copyright (c) 2014 Ben Lambert. Released under the MIT License; see LICENSE.txt.
 
 (defpackage :edit-distance
   (:use :common-lisp)
