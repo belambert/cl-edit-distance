@@ -47,3 +47,23 @@
       (diff "0123" "1245")
     (assert-equal distance 3)
     (format-diff path)))
+
+(defun printed (seq1 seq2 &rest args)
+  (with-output-to-string (out)
+    (apply #'print-diff seq1 seq2 :file-stream out args)))
+
+(define-test test-print-numeric-substitution
+  (assert-equal (format nil "seq1: f o o [1] []~%seq2: f o o [2] []~%")
+                (printed "foo1" "foo2")))
+
+(define-test test-print-substitution-width
+  (assert-equal (format nil "seq1: [A]   []~%seq2: [BCD] []~%")
+                (printed '(a) '(bcd))))
+
+(define-test test-print-preserves-case
+  (assert-equal (format nil "seq1: A b []~%seq2: A b []~%")
+                (printed "Ab" "Ab")))
+
+(define-test test-print-gaps
+  (assert-equal (format nil "seq1: 1   2 3 4 5 *** []~%seq2: *** 2 3 4 5 6   []~%")
+                (printed '(1 2 3 4 5) '(2 3 4 5 6))))

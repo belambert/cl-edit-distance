@@ -35,10 +35,11 @@ which will print a result like this:
     seq1: 1   2 3 4 5 *** []
     seq2: *** 2 3 4 5 6   []
 
-Several options are available to the `FORMAT-DIFF` and `PRINT-DIFF` to
-print a prefix and suffix for each line.  Note that displaying
-substitutions relys on captialization and so substitutions are not
-visible for non-alphabetic sequence elements.
+Substitutions are shown in square brackets (so `"foo1"` and `"foo2"`
+print as `f o o [1]` and `f o o [2]`), and insertions and deletions
+are shown as asterisks. Several options are available to the
+`FORMAT-DIFF` and `PRINT-DIFF` to print a prefix and suffix for each
+line.
 
 Additionally, other equality functions can be used, so this evaluates
 to a distance of zero:
@@ -59,11 +60,9 @@ Tests run in CI on every push to `main` and on pull requests. To run them locall
 TODO
 ----
 - Remove the 100,000 element limit in the fast distance path.
-- Stop `print-diff` from changing the case of elements, and print strings and characters without quotes or `#\`.
 - Default the `format-diff` prefixes to `seq1` and `seq2` like `print-diff`.
 - Make `insertions-and-deletions` handle `NIL` elements.
 - Pad matched elements in printed diffs so columns stay aligned with custom `:test` functions.
-- Add tests that check printed output, not just that printing runs.
 - Remove unused functions: `compute-alignment`, `edit-distance`, and `sequence-diff`.
 - Test on more Lisp implementations in CI (abcl, ccl, clisp, cmucl).
 
