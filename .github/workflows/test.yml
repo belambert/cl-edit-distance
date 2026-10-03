@@ -1,0 +1,25 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install SBCL
+        run: sudo apt-get update && sudo apt-get install -y sbcl
+      - name: Install Quicklisp
+        run: |
+          curl -fsSL -o /tmp/quicklisp.lisp https://beta.quicklisp.org/quicklisp.lisp
+          sbcl --non-interactive --load /tmp/quicklisp.lisp --eval '(quicklisp-quickstart:install)'
+      - name: Run tests
+        run: |
+          sbcl --non-interactive \
+            --load ~/quicklisp/setup.lisp \
+            --eval '(push (truename ".") ql:*local-project-directories*)' \
+            --eval '(ql:quickload :edit-distance-test)' \
+            --eval '(let ((r (lisp-unit:run-tests :all :edit-distance-tests))) (uiop:quit (if (or (lisp-unit:failed-tests r) (lisp-unit:error-tests r)) 1 0)))'

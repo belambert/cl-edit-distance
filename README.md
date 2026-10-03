@@ -1,9 +1,6 @@
 edit-distance
 =============
-[![Build Status](https://travis-ci.org/belambert/cl-edit-distance.svg?branch=main)
-](https://travis-ci.org/belambert/cl-edit-distance)
-[![Coverage Status](https://coveralls.io/repos/github/belambert/cl-edit-distance/badge.svg?branch=coverage)
-](https://coveralls.io/github/belambert/cl-edit-distance?branch=coverage)
+[![test](https://github.com/belambert/cl-edit-distance/actions/workflows/test.yml/badge.svg)](https://github.com/belambert/cl-edit-distance/actions/workflows/test.yml)
 
 Using
 -----
@@ -55,9 +52,9 @@ provide simple vectors as your input sequences.
 
 Testing
 -------
-To test with sbcl, run:
+Tests run in CI on every push to `main` and on pull requests. To run them locally with SBCL and Quicklisp:
 
-    sbcl --eval "(asdf:load-system 'edit-distance-test)" --eval "(unless (lisp-unit:run-tests :all :edit-distance-tests) (uiop:quit 1))"
+    sbcl --eval "(ql:quickload :edit-distance-test)" --eval "(let ((r (lisp-unit:run-tests :all :edit-distance-tests))) (uiop:quit (if (or (lisp-unit:failed-tests r) (lisp-unit:error-tests r)) 1 0)))"
 
 ---
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">cl-edit-distance</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/belambert/cl-edit-distance" property="cc:attributionName" rel="cc:attributionURL">Ben Lambert</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.

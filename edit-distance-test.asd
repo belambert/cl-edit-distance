@@ -12,9 +12,4 @@
     :serial t
     :components
     ((:file "test"))))
-  :depends-on ("edit-distance"
-	       "lisp-unit"
-	       ;; cl-coverage is failing without these
-	       "trivial-features"
-	       "babel"
-	       "cl-coveralls"))
+  :depends-on ("edit-distance" "lisp-unit"))
