@@ -7,6 +7,7 @@
   :author "Ben Lambert <belambert@mac.com>"
   :license "CC-BY-4.0"
   :serial t
+  :in-order-to ((test-op (test-op "edit-distance-test")))
   :components
   ((:module src
     :serial t

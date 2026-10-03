@@ -5,7 +5,7 @@
 ;; work. If not, see <http://creativecommons.org/licenses/by/4.0/>.
 
 
-;; To run these tests: (lisp-unit:run-tests :all :edit-distance-tests)
+;; To run these tests: (asdf:test-system :edit-distance)
 
 (defpackage :edit-distance-tests
   (:use :common-lisp
@@ -15,6 +15,12 @@
   (:export :run))
 
 (in-package :edit-distance-tests)
+
+(defun run ()
+  "Run all tests, signaling an error if any fail."
+  (let ((results (run-tests :all :edit-distance-tests)))
+    (when (or (failed-tests results) (error-tests results))
+      (error "Tests failed."))))
 
 (define-test test-distance-fast
     (let ((result (distance '(1 2 3) '(1 2 4))))

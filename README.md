@@ -54,7 +54,7 @@ Testing
 -------
 Tests run in CI on every push to `main` and on pull requests. To run them locally with SBCL and Quicklisp:
 
-    sbcl --eval "(ql:quickload :edit-distance-test)" --eval "(let ((r (lisp-unit:run-tests :all :edit-distance-tests))) (uiop:quit (if (or (lisp-unit:failed-tests r) (lisp-unit:error-tests r)) 1 0)))"
+    sbcl --eval "(ql:quickload :edit-distance-test)" --eval "(asdf:test-system :edit-distance)"
 
 TODO
 ----

@@ -22,4 +22,4 @@ jobs:
             --load ~/quicklisp/setup.lisp \
             --eval '(push (truename ".") ql:*local-project-directories*)' \
             --eval '(ql:quickload :edit-distance-test)' \
-            --eval '(let ((r (lisp-unit:run-tests :all :edit-distance-tests))) (uiop:quit (if (or (lisp-unit:failed-tests r) (lisp-unit:error-tests r)) 1 0)))'
+            --eval '(asdf:test-system :edit-distance)'
