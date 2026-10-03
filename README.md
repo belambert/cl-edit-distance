@@ -32,8 +32,8 @@ Or, you can compute the diff and print it readably together by calling `PRINT-DI
 
 which will print a result like this:
 
-    seq1: 1   2 3 4 5 *** []
-    seq2: *** 2 3 4 5 6   []
+    seq1: 1 2 3 4 5 * []
+    seq2: * 2 3 4 5 6 []
 
 Substitutions are shown in square brackets (so `"foo1"` and `"foo2"`
 print as `f o o [1]` and `f o o [2]`), and insertions and deletions
@@ -62,7 +62,6 @@ TODO
 - Remove the 100,000 element limit in the fast distance path.
 - Default the `format-diff` prefixes to `seq1` and `seq2` like `print-diff`.
 - Make `insertions-and-deletions` handle `NIL` elements.
-- Pad matched elements in printed diffs so columns stay aligned with custom `:test` functions.
 - Remove unused functions: `compute-alignment`, `edit-distance`, and `sequence-diff`.
 - Test on more Lisp implementations in CI (abcl, ccl, clisp, cmucl).
 
