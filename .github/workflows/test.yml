@@ -8,18 +8,17 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lisp: [sbcl-bin, ccl-bin, ecl]
+    env:
+      LISP: ${{ matrix.lisp }}
     steps:
       - uses: actions/checkout@v4
-      - name: Install SBCL
-        run: sudo apt-get update && sudo apt-get install -y sbcl
-      - name: Install Quicklisp
-        run: |
-          curl -fsSL -o /tmp/quicklisp.lisp https://beta.quicklisp.org/quicklisp.lisp
-          sbcl --non-interactive --load /tmp/quicklisp.lisp --eval '(quicklisp-quickstart:install)'
-      - name: Run tests
-        run: |
-          sbcl --non-interactive \
-            --load ~/quicklisp/setup.lisp \
-            --eval '(push (truename ".") ql:*local-project-directories*)' \
-            --eval '(ql:quickload :edit-distance-test)' \
-            --eval '(asdf:test-system :edit-distance)'
+      - uses: 40ants/setup-lisp@v4
+        with:
+          asdf-system: edit-distance-test
+      - uses: 40ants/run-tests@v2
+        with:
+          asdf-system: edit-distance
